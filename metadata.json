@@ -1,0 +1,10 @@
+{
+  "name": "HavenNear - Real-Time House Rentals & Landlord Chat",
+  "description": "Find nearby house and apartment rentals with real-time availability updates, interactive map-based search filters, and an integrated landlord chat system.",
+  "requestFramePermissions": [
+    "geolocation"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
