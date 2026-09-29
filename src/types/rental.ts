@@ -120,6 +120,8 @@ export interface ChatMessage {
     status: 'confirmed' | 'pending' | 'rescheduled';
   };
   read: boolean;
+  source?: 'n8n' | 'simulated' | 'user';
+  n8nStatus?: 'success' | 'inactive' | 'error';
 }
 
 export interface ChatConversation {

@@ -431,21 +431,36 @@ export default function App() {
   }, []);
 
   const handleSendMessage = useCallback(
-    (propertyId: string, text: string, type?: any, tourDetails?: any) => {
-      const isLandlordSender = isLandlordMode;
+    (
+      propertyId: string,
+      text: string,
+      type?: any,
+      tourDetails?: any,
+      meta?: {
+        senderRole?: 'tenant' | 'landlord';
+        senderName?: string;
+        source?: 'n8n' | 'simulated' | 'user';
+        n8nStatus?: 'success' | 'inactive' | 'error';
+      }
+    ) => {
       const activeProp = properties.find((p) => p.id === propertyId);
+      const isLandlordSender = meta?.senderRole ? meta.senderRole === 'landlord' : isLandlordMode;
 
       const newMsg = {
-        id: `msg-${Date.now()}`,
+        id: `msg-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
         propertyId,
         senderId: isLandlordSender ? activeProp?.landlord.id || 'landlord-me' : 'tenant-me',
-        senderName: isLandlordSender ? activeProp?.landlord.name || 'Landlord' : 'You',
+        senderName:
+          meta?.senderName ||
+          (isLandlordSender ? activeProp?.landlord.name || 'Landlord' : 'You'),
         senderRole: isLandlordSender ? ('landlord' as const) : ('tenant' as const),
         text,
         timestamp: 'Just now',
         type: type || 'text',
         tourDetails,
         read: true,
+        source: meta?.source,
+        n8nStatus: meta?.n8nStatus,
       };
 
       setConversations((prev) =>
